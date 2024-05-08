@@ -1,0 +1,22 @@
+#YAML configuration file for the first part of the dataset by Capra Robotics
+#The dataset contains a collection of images for 2 classes of objects: 'Chewing Gum' and 'Cigarette'
+# PARENT
+# ├── CHEWIE---> data(.png)(4367 images)
+#        └──---> labels(.txt)(4367 annotations)
+# └── BUTTY----> data(.png)(3554 images)
+#     └── -----> labels(.txt)---> (Split between annotations for Butty_images, train-1 and test-1) 
+
+
+train: /content/train/data #Path to the fraction of all images dedicated to training
+val:  /content/val/data #Path to the fraction of all images dedicated to validation
+test:  /content/test/data #Path to the fraction of all images dedicated to testing.
+train_labels: /content/train/labels #Path to the fraction of all annotations dedicated to training
+val_labels: /content/val/labels #Path to the fraction of all annotations dedicated to validation
+test_labels: /content/test/labels #Path to the fraction of all annotations dedicated to testing
+nc : 2 #Number of classes in the dataset
+
+
+#Classes
+names: ['Cigarette Butt', 'Chewing Gum']
+
+  
