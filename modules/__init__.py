@@ -1,6 +1,7 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
 """
 Ultralytics modules.
+#Copy-paste from https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/__init__.py
 
 Example:
     Visualize a module with Netron.
