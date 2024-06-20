@@ -1,5 +1,6 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
 """Transformer modules."""
+#Copy-paste from https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/transformer.py
 
 import math
 
