@@ -1,4 +1,5 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
+# Copy-paste from https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/tasks.py for now but will be modified soon!
 
 import contextlib
 from copy import deepcopy
