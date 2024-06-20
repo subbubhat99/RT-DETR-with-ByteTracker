@@ -1,5 +1,6 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
-"""Module utils."""
+"""Multi-Scale Deformable Attention Module Definition."""
+# Modified from  https://github.com/IDEA-Research/detrex/blob/main/detrex/layers/multi_scale_deform_attn.py
 
 import copy
 import math
@@ -10,34 +11,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn.init import uniform_
 
-__all__ = "multi_scale_deformable_attn_pytorch", "inverse_sigmoid"
-
-
-def _get_clones(module, n):
-    """Create a list of cloned modules from the given module."""
-    return nn.ModuleList([copy.deepcopy(module) for _ in range(n)])
-
-
-def bias_init_with_prob(prior_prob=0.01):
-    """Initialize conv/fc bias value according to a given probability value."""
-    return float(-np.log((1 - prior_prob) / prior_prob))  # return bias_init
-
-
-def linear_init(module):
-    """Initialize the weights and biases of a linear module."""
-    bound = 1 / math.sqrt(module.weight.shape[0])
-    uniform_(module.weight, -bound, bound)
-    if hasattr(module, "bias") and module.bias is not None:
-        uniform_(module.bias, -bound, bound)
-
-
-def inverse_sigmoid(x, eps=1e-5):
-    """Calculate the inverse sigmoid function for a tensor."""
-    x = x.clamp(min=0, max=1)
-    x1 = x.clamp(min=eps)
-    x2 = (1 - x).clamp(min=eps)
-    return torch.log(x1 / x2)
-
+__all__ = "multi_scale_deformable_attn_pytorch"
 
 def multi_scale_deformable_attn_pytorch(
     value: torch.Tensor,
@@ -45,11 +19,7 @@ def multi_scale_deformable_attn_pytorch(
     sampling_locations: torch.Tensor,
     attention_weights: torch.Tensor,
 ) -> torch.Tensor:
-    """
-    Multiscale deformable attention.
 
-    https://github.com/IDEA-Research/detrex/blob/main/detrex/layers/multi_scale_deform_attn.py
-    """
 
     bs, _, num_heads, embed_dims = value.shape
     _, num_queries, num_heads, num_levels, num_points, _ = sampling_locations.shape
