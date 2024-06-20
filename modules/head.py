@@ -1,5 +1,7 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
 """Model head modules."""
+# Copy-paste from https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/head.py
+    
 
 import math
 
