@@ -1,5 +1,6 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
 """Block modules."""
+#Copy-paste from https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/block.py
 
 import torch
 import torch.nn as nn
