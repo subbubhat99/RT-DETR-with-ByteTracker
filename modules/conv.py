@@ -1,5 +1,6 @@
 # Ultralytics YOLO 🚀, AGPL-3.0 license
 """Convolution modules."""
+#Copy-paste from https://github.com/ultralytics/ultralytics/blob/main/ultralytics/nn/modules/conv.py
 
 import math
 
