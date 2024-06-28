@@ -87,7 +87,7 @@ WORKDIR $OVERLAY_WS
 ARG ROS_DISTRO
 ARG ROS_SETUP
 
-COPY ./RT-DETR-with-ByteTracker/ src/
+COPY ./* src/RT-DETR-with-ByteTracker
 RUN . $ROS_SETUP && colcon build
 
 FROM builder as runner
