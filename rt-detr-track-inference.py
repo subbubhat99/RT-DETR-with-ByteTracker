@@ -15,9 +15,9 @@ TRACKER = "bytetrack"
 
 class ObjectDetector:
 
-    def __init__(self, vid_path):
+    def __init__(self, capture_ind):
         
-        self.vid_path = vid_path
+        self.capture_ind = capture_ind
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print("Using device: ", self.device)
         
@@ -63,7 +63,7 @@ class ObjectDetector:
 
     def load_model(self):
 
-        model = RTDETR("weights/best2.pt")
+        model = RTDETR("weights/best3.engine")
         model.fuse()
 
         return model
