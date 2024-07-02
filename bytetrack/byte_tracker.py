@@ -4,9 +4,9 @@ from collections import deque
 from .kalman_filter import KalmanFilter
 from .basetrack import BaseTrack, TrackState
 from .matching import fuse_score, iou_distance, linear_assignment
-from src.zoo.rtdetr.utils import tlwh2xyah, xywh2tlwh, xywh2xyxy, xyxy2xywh
+from .byte_utils import tlwh2xyah, xywh2tlwh, xywh2xyxy, xyxy2xywh
 from .basetracker import BaseTracker
-from src.zoo.rtdetr.utils import PerClassDecorator
+from .byte_utils import PerClassDecorator
 
 
 class STrack(BaseTrack):

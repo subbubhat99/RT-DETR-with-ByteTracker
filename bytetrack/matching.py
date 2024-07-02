@@ -3,7 +3,7 @@ import numpy as np
 import scipy
 import torch
 from scipy.spatial.distance import cdist
-from src.zoo.rtdetr.utils import iou_batch
+from .byte_utils import iou_batch
 
 """
 Table for the 0.95 quantile of the chi-square distribution with N degrees of
