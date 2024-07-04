@@ -8,6 +8,10 @@ FROM $FROM_IMAGE AS ros_install
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y software-properties-common curl gnupg lsb-release && add-apt-repository universe
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null
+RUN rm /var/lib/dpkg/info/libc-bin.*
+RUN apt-get clean
+RUN apt-get update
+RUN apt-get install libc-bin
 
 ARG ROS_DISTRO
 ARG OVERLAY_WS
