@@ -113,8 +113,8 @@ class ObjectDetector:
     
     def __call__(self):
         
-        vid_path = self.vid_path
-        cap = cv2.VideoCapture(vid_path)
+        #vid_path = self.vid_path
+        cap = cv2.VideoCapture(self.capture_ind)
         assert cap.isOpened()
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 478)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 850)
@@ -188,7 +188,7 @@ class ObjectDetector:
 
 if __name__ == "__main__":
 
-    detector = ObjectDetector(r"C:\\Users\\subra\\Desktop\\DTU\\MSc.Thesis\\Cigarette_Vid-1_Annotations\\obj_train_data\\Cigarette_Vid-1.mp4")
+    detector = ObjectDetector(capture_ind=1)
     detector()
 
 
