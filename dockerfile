@@ -1,5 +1,5 @@
 ARG ROS_DISTRO=humble
-ARG FROM_IMAGE=ubuntu:20.04
+ARG FROM_IMAGE=dustynv/ros:humble-llm-r36.3.0
 ARG OVERLAY_WS=/opt/capra/overlay_ws
 ARG ROS_SETUP=/opt/ros/$ROS_DISTRO/setup.sh
 
