@@ -30,7 +30,6 @@ RUN apt-get update -y && apt-get install -q -y --no-install-recommends\
     python3-pip \
     python3-colcon-common-extensions \
     python3-flake8 \
-    python3-pip \
     python3-pytest-cov \
     python3-rosdep \
     python3-setuptools \
