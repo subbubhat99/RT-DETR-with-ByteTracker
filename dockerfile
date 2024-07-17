@@ -13,7 +13,7 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o 
 RUN rm /var/lib/dpkg/info/libc-bin.*
 RUN apt-get clean
 RUN apt-get update
-RUN apt-get install libc-bin
+#RUN apt-get install libc-bin
 
 ARG ROS_DISTRO
 ARG OVERLAY_WS
