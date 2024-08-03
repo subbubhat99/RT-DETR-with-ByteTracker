@@ -1,0 +1,33 @@
+#YAML configuration file for the first part of the dataset by Capra Robotics
+#The dataset contains a collection of images for 2 classes of objects: 'Chewing Gum' and 'Cigarette'
+# PARENT
+# ├── CHEWIE---> data(.png)(4367 images)
+#        └──---> labels(.txt)(4367 annotations)
+# └── BUTTY----> data(.png)(3554 images)
+#     └── -----> labels(.txt)(3554 annotations) 
+# STRUCTURE
+# ├── Capra
+#     └──------> images---> train
+#                     └--->  val
+#                     └--->  test                      
+#     └──------> labels---> train
+#                     └--->  val
+#                     └--->  test
+#                     └---> train.cache
+#                     └---> val.cache
+
+#The dataset is split into 3 parts: train, validation and test
+train: /Users/subra/Desktop/DTU/MSc.Thesis/Capra/images/train #Path to the fraction of all images dedicated to training
+val:  /Users/subra/Desktop/DTU/MSc.Thesis/Capra/images/val #Path to the fraction of all images dedicated to validation
+test:  /Users/subra/Desktop/DTU/MSc.Thesis/Capra/images/test #Path to the fraction of all images dedicated to testing.
+train_labels: /Users/subra/Desktop/DTU/MSc.Thesis/Capra/labels/train #Path to the fraction of all annotations dedicated to training
+val_labels: /Users/subra/Desktop/DTU/MSc.Thesis/Capra/labels/val #Path to the fraction of all annotations dedicated to validation
+test_labels: /Users/subra/Desktop/DTU/MSc.Thesis/Capra/labels/test #Path to the fraction of all annotations dedicated to testing
+nc : 2 #Number of classes in the dataset
+
+
+#Classes
+names: ['Cigarette Butt', 'Chewing Gum']
+
+
+  

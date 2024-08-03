@@ -10,9 +10,9 @@ import torchvision.transforms as transforms
 def main():
     
     
-    model = RTDETR("weights/best3.pt").cuda()
+    model = RTDETR("weights/rtdetr-l.pt").cuda()
     #Load an image as the dummy input
-    img = Image.open("C:\\Users\\subra\\Desktop\\DTU\\MSc.Thesis\\Capra_Aug\\data\\transformed_image_330.png")
+    #img = Image.open("C:\\Users\\subra\\Desktop\\DTU\\MSc.Thesis\\Capra_Aug\\data\\transformed_image_330.png")
     #transformation = transforms.Compose([
      #   transforms.Resize((320,320)),
       #  transforms.ToTensor()
@@ -20,8 +20,10 @@ def main():
     #x = transformation(img).unsqueeze(0).cuda()
     #model_trt = torch2trt(model, [x])
     #torch.onnx.export(model, [x],"weights/rtdetr.onnx", verbose=True, opset_version=11, input_names=['input'], output_names=['output'])
-    result = model(img)
-    path = model.export(format="engine")
+    model.train(data='configs/capra.yaml', imgsz=(320,320), epochs=100, batch=16, project="RT-DETR", name="final_run", weight_decay=0.0005, exist_ok= True)
+    #result = model(img)
+    metrics = model.val(show = True, conf = 0.30, save = True)
+    #path = model.export(format="engine")
 
 if __name__ == '__main__':
     main()

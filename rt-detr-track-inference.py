@@ -15,9 +15,9 @@ TRACKER = "bytetrack"
 
 class ObjectDetector:
 
-    def __init__(self, capture_ind):
+    def __init__(self, vid_path):
         
-        self.capture_ind = capture_ind
+        self.vid_path = vid_path
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print("Using device: ", self.device)
         
@@ -31,7 +31,7 @@ class ObjectDetector:
         #reid_weights = Path("weights/osnet_x0_25_msmt17.pt")
 
         if TRACKER == "bytetrack":
-            tracker_cfg = "configs/tracking/bytetrack.yaml"
+            tracker_cfg = "configs/bytetrack.yaml"
             cfg = YamlParser()
             cfg.merge_from_file(tracker_cfg)
             print(cfg)
@@ -63,13 +63,22 @@ class ObjectDetector:
 
     def load_model(self):
 
-        model = RTDETR("weights/best3.engine")
+        model = RTDETR("RT-DETR/final_run/weights/rtdetr.pt")
         model.fuse()
+        # model.to(self.device)
 
         return model
     
     def predict(self, frame):
-        
+        # tensor_frame = torch.from_numpy(frame).to(self.device)
+        # tensor_frame.unsqueeze_(0)
+        # tensor_frame = tensor_frame.permute(0,3,1,2)
+        # print(tensor_frame.shape[0])
+        # print(tensor_frame.shape[1])
+        # print(tensor_frame.shape[2])
+        # print(tensor_frame.shape[3])
+
+        print("Dimensions printed")
         res = self.model(frame)
 
         return res
@@ -78,6 +87,7 @@ class ObjectDetector:
         xyxys = []
         confs = []
         class_ids = []
+        confidence = 0
         detections = []
         boxes = []
         for result in results:
@@ -94,27 +104,25 @@ class ObjectDetector:
                 confs.append(result.boxes.conf.cpu().numpy())
                 class_ids.append(result.boxes.cls.cpu().numpy())
                 boxes.append(result.boxes)
-
                 detections = sv.Detections(xyxy=result.boxes.xyxy.cpu().numpy(),
                                            confidence=result.boxes.conf.cpu().numpy(),
                                            class_id = result.boxes.cls.cpu().numpy().astype(int))
-            
             #print(detections)
             #exit()
             #Format custom labels
             self.labels = [f"{self.CLASS_NAMES_DICT[class_id]}{confidence:0.2f}"
-                           for _, _,confidence, class_id, tracker_id,_
+                           for _, _,confidence, class_id,_,_
             in detections]
 
         #Annotate and display frame
         frame = self.bbox_annotator.annotate(scene=frame, detections=detections)
-        final_frame = self.label_annotator.annotate(scene=frame, detections=detections, labels=self.labels)
+        # final_frame = self.label_annotator.annotate(scene=frame, detections=detections, labels=self.labels)
         return final_frame, boxes
     
     def __call__(self):
         
-        #vid_path = self.vid_path
-        cap = cv2.VideoCapture(self.capture_ind)
+        vid_path = self.vid_path
+        cap = cv2.VideoCapture(self.vid_path)
         assert cap.isOpened()
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, 478)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 850)
@@ -124,9 +132,9 @@ class ObjectDetector:
         #Set up the tracker
         tracker = self.tracker
 
-        if hasattr(tracker, 'model'):
-            if hasattr(tracker.model, 'warmup'):
-                tracker.model.warmup()
+        # if hasattr(tracker, 'model'):
+        #     if hasattr(tracker.model, 'warmup'):
+        #         tracker.model.warmup()
 
         outputs = [None]
         curr_frames, prev_frames = None, None
@@ -139,14 +147,15 @@ class ObjectDetector:
             #print("frame")
             ##print(frame)
             assert ret
+            print(f"frame type: {type(frame)}")
             results = self.predict(frame)
 
             frame, _ = self.draw_results(frame, results)
 
-            if hasattr(tracker, 'tracker') and hasattr(tracker.tracker, 'camera_update'):
-                if prev_frames is not None and curr_frames is not None:
-                    tracker.tracker.camera_update(prev_frames, curr_frames)
-            #print(len(results))
+            # if hasattr(tracker, 'tracker') and hasattr(tracker.tracker, 'camera_update'):
+            #     if prev_frames is not None and curr_frames is not None:
+            #         tracker.tracker.camera_update(prev_frames, curr_frames)
+            # #print(len(results))
             for result in results:
                 #print("results")
                 #print(results)
@@ -159,12 +168,13 @@ class ObjectDetector:
                     bbox = output[0:4]
                     #print("bbox")
                     #print(bbox)
-
-                    tracked_id = output[4]
+                    #for s in self.labels:
+                    #    print(f"lable string: {s}")
+                    #tracked_id = output[4]
 
                     top_left = (int(bbox[-2] - 100), int(bbox[1]))
 
-                    cv2.putText(frame, f"ID : {tracked_id}", top_left, cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 3)
+                    # cv2.putText(frame, f"Confidence : {confi}", top_left, cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 3)
 
             end_time = perf_counter()
             fps = 1/np.round(end_time - start_time, 2)
@@ -188,7 +198,7 @@ class ObjectDetector:
 
 if __name__ == "__main__":
 
-    detector = ObjectDetector(capture_ind=1)
+    detector = ObjectDetector('C:\\Users\\subra\\Desktop\\DTU\\MSc.Thesis\\Cigarette_Vid-1_Annotations\\obj_train_data\\Cigarette_Vid-1.mp4')
     detector()
 
 

@@ -50,7 +50,7 @@ RUN pip3 install -r requirements.txt
 
 # Install the bash-auto complete
 RUN sudo apt-get install bash-completion && sudo apt-get install --reinstall bash-completion
-ENV DEBIAN_FRONTEND ""
+ENV DEBIAN_FRONTEND=""
 
 # Assure the timezone is european => CPH
 ENV TZ=Europe/Copenhagen
@@ -95,7 +95,7 @@ ARG ROS_SETUP
 COPY ./ src/RT-DETR-with-ByteTracker
 RUN . $ROS_SETUP && colcon build
 
-FROM builder as runner
+FROM builder AS runner
 
 ARG ROS_SETUP
 ARG WORKSPACE
